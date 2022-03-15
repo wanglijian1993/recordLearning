@@ -1,0 +1,41 @@
+Activity启动模式
+四种
+Standard:
+如果在mainfest中不设置默认就是standard;standard就是新建一个Activity在栈中新建一个activity实例。
+
+SingleTop:
+从字面上理解就是顶部的单例模式。
+与standard相比栈顶复用可以有效减少activity重复创建对资源的消耗。
+
+SingleTask:
+栈内只有一个activity实例，栈内已存activity实例，在其它activity中start这个activity，Android直接把这个实例上茅其它activity实例剔出栈GC掉。
+
+SingleInstance:
+整个手机操作系统里面只有一个实例存在就是内存单例
+
+在singleTop、singleTask、singleInstance 中如果在应用内存在Activity实例，并且再次发生startActivity(Intent intent)回到Activity后,由于并不是重新创建Activity而是复用栈中的实例，因此Activity再获取焦点后并没调用onCreate、onStart，而是直接调用了onNewIntent(Intent intent)函数
+
+
+ 
+taskAffinity属性
+taskAffininity是Activity在mannifest中配置的一个属性，暂时可以理解为：taskAffinity为宿主Activity指定了存放的任务栈
+【不同于其它的Activity栈】，为activity设置taskAffinity属性时不能和包名相同，因为Android团队为taskAffinity默认设置为包名任务栈。
+
+taskAffinity只有和SingleTask启动模式匹配使用时，启动的activity才会运行在名字和taskAffinity相同的任务栈中。
+
+allowTaskReparting的用法
+
+二者连在一起使用，用于实现把一个应用程序的Activity移到另一个应用程序的Task中。 allowTaskReparenting用来标记Activity能否从启动的Task移动到taskAffinity指定的Task，默认是继承至application中的allowTaskReparenting=false，如果为true，则表示可以更换；false表示不可以。
+
+
+Intent中标志位设置启动模式
+在上文中的四种模式都是在mainfest的xml文件中进行配置的，GoogleAndroid团队同时提供另种级别更高的设置方式，即通过Intent.setFlags(int flags)设置启动模式；
+
+FLAG_ACTIVITY_CLEAR_TOP : 等同于mainfest中配置的singleTask，没啥好讲的；
+FLAG_ACTIVITY_SINGLE_TOP: 同样等同于mainfest中配置的singleTop;
+FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS: 其对应在AndroidManifest中的属性为android:excludeFromRecents=“true”,当用户按了“最近任务列表”时候,该Task不会出现在最近任务列表中，可达到隐藏应用的目的。
+FLAG_ACTIVITY_NO_HISTORY: 对应在AndroidManifest中的属性为:android:noHistory=“true”，这个FLAG启动的Activity，一旦退出，它不会存在于栈中。
+FLAG_ACTIVITY_NEW_TASK: 这个属性需要在被start的目标Activity在AndroidManifest.xml文件配置taskAffinity的值【必须和startActivity发其者Activity的包名不一样，如果是跳转另一个App的话可以taskAffinity可以省略】，则会在新标记的Affinity所存在的taskAffinity中压入这个Activity。
+
+
+③有没有遇到哪些诡异的现象？如何解决的？

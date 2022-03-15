@@ -1,0 +1,95 @@
+Kotlin修饰符
+
+public / protected / private / internal
+expect / actual
+final / open / abstract / sealed / const
+external
+override
+lateinit
+tailrec
+vararg
+suspend
+inner
+enum / annotation / fun // 在 `fun interface` 中是修饰符
+companion
+inline
+infix
+operator
+data
+
+
+jetpack
+navigation 路由组件
+
+lifecycle:具备宿主后期感知能力的组件
+特性:它持有组件(Activity或Fragment)生命周期状态的信息，并且允许其它对象观察此状态。
+ViewModel:具备生命周期感知能力的数据存储组件
+特征:页面配置更改数据不丢失，生命周期感应，数据共享
+LiveData:具备生命周期感知能力的数据订阅，分发组件。
+特性:支持共享资源，支持黏性事件的分发，不再需要手动处理生命周期，确保界面符合数据状态。
+不足:黏性事件不支持取消
+Room:轻量级orm数据库，本质上是一个SQLite抽象层。
+特性:使用更加简单(类似于Retrofit库)，通过注解的方式实现相关功能。编译时自动生成实现类impl
+DataBinding:dataBinding只是一种工具，它解决的是View和数据之间的双向绑定。MVVM是一种架构模式
+特性：数据与视图双向绑定，数据绑定空安全，减少模块代码，释放ActivityFragment
+
+
+
+性能优化:启动速度优化，加载耗时优化，流畅度FPS优化，内存优化，网络优化，包大小优化
+
+架构技术:jetpack架构组件  MVC，MVP，MVVM  设计模式
+工程架构:模块化 组件化 插件化  容器化
+扩展技术:AndroidX适配与升级，屏幕适配，Android Q暗黑模式 AppBundel，权限治理
+
+协作：Git 开发规约
+
+监控:Crash监控 自建，Firebase，Bugly，友盟
+日志系统:HiLog
+ 
+热修复:Tinker，Robust，Hotpatch
+
+
+IOC架构 Dagger2
+
+
+研发效率
+
+多人多团队协助:解耦/模块间相互独立/单独仓库/jar/aar依赖
+复杂度控制:复杂度控制在组件内部，对外"简单可依赖"
+复用:伟矩阵产品输出轮子
+编译速度提升:组件单独编译，maven私服，构建加速
+
+技术选型的方法论:
+
+ 技术判断:目标/问题->影响因素->识别风险/利弊->整体最优/次优
+ 影响因素:业务阶段->技术趋势->行业趋势->未来趋势->切换成本
+
+开发套件
+
+
+
+框架设计思想
+高内聚 低耦合
+面向接口编程
+易于扩展和维护(面向未来)
+
+服务使用者
+
+友盟 
+包大小:421KB
+崩溃分析,ANR分析,自定义异常,错误详情,监测告警,错误细查
+
+Bugly
+239KB
+
+平台术语
+异常,崩溃,卡顿,ANR,错误
+
+
+总大小:121
+res：45.2MB
+lib 39.8
+assets:5.5
+dex:25MB
+
+

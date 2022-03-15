@@ -1,0 +1,58 @@
+Git命令
+
+//提交单个文件 占存区
+git add path
+
+//提交全部 占存区
+git add .
+
+//提交到本地仓库
+git commit
+
+git commit -m "内容"
+
+//拉代码  实际执行 git fetch  git merge
+git pull  
+
+//提交到远程仓库
+git push
+
+//创建一个新的仓库分支
+git branch "分支名字"
+
+//切换仓库分支
+git checkout "分支名字"
+
+//合并分支到主线
+git merge "分支名字" 
+
+//当前git仓库状态
+git status
+
+//遇到冲突解决办法
+1.本地解决合并冲突
+2.提交冲突文件
+3.git merge continue //git rebase --continue
+
+
+//更细的观看状态
+git diff
+
+//提交分支到远程仓库
+git push origin "分支名"
+
+//删除本地分支
+bit branch -d "分支名"
+
+//查看是否有开分支合并记录
+git log --graph
+
+
+//变基 没有分支记录 直接吧分支追加到master主干上
+git rebase master 
+
+//从master 到当前commit提交记录
+git rebase -i master
+
+//分支合并
+git push --mirror 分支地址
