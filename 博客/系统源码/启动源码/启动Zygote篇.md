@@ -1,6 +1,6 @@
 # 启动Zygote篇
 
-# 1.入口
+## 1.入口
 
 app_main.cpp,通过init.${ro.zygote}.rc文件去启动app_process/app_main.cpp的main方法
 
@@ -118,14 +118,11 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
     //com.android.internal.os.ZygoteInit
     jclass startClass = env->FindClass(slashClassName);
     if (startClass == NULL) {
-        ALOGE("JavaVM unable to locate class '%s'\n", slashClassName);
-        /* keep going */
     } else {
         jmethodID startMeth = env->GetStaticMethodID(startClass, "main",
             "([Ljava/lang/String;)V");
         if (startMeth == NULL) {
-            ALOGE("JavaVM unable to find main() in '%s'\n", className);
-            /* keep going */
+        
         } else {
            //3.已经创建了虚拟机就可以执行java代码，jni调用ZygoteInit正式进入java的世界
             env->CallStaticVoidMethod(startClass, startMeth, strArray);
@@ -209,7 +206,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
     }
 ```
 
-### 3.2runSelectLoop
+## 3.2runSelectLoop
 
 ```
    private static void runSelectLoop(String abiList) throws MethodAndArgsCaller {
@@ -260,7 +257,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
 
 Zygote采用高效的I/O多路复用机制，保证在没有客户端连接请求或数据处理时休眠，否则响应客户端的请求
 
-### 3.3runOnce()
+## 3.3runOnce()
 
 ```
  boolean runOnce() throws ZygoteInit.MethodAndArgsCaller {
@@ -342,3 +339,13 @@ Zygote采用高效的I/O多路复用机制，保证在没有客户端连接请�
         }
     }
 ```
+
+zygote主要处理的时间
+
+1.创建虚拟机
+
+2.注册jni函数
+
+3.预加载代码，资源，OpenGl
+
+4.fork service_manager进程

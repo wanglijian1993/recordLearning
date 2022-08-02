@@ -4,14 +4,6 @@
 
 ## 一.架构概述
 
-###  1.1架构图
-
-[android_struct.png](https://github.com/wanglijian1993/recordLearning/blob/main/imgs/android/android_struct.png)
-
-###   1.2流程图
-
-[android_process_start.png](https://github.com/wanglijian1993/recordLearning/blob/main/imgs/android/android_process_start.png)
-
 ### 启动描述
 
 长按电源启动机器手机CPU第一条指令会指向操作系统所在位置，BootLoader (系统启动加载器)，用以初始化硬件设备，建立内存空间的映像图，为最终调用系统内核准备好环境。 在 Android 里没有硬盘，而是 ROM，它类似于硬盘存放操作系统，用户程序等。 ROM 跟硬盘一样也会划分为不同的区域，用于放置不同的程序。当 Linux 内核启动后会初始化各种软硬件环境，加载驱动程序，挂载根文件系统，Linux 内核加载的准备完毕后就开始加载一些特定的程序(进程)了。第一个加载的就是 init 进程。
@@ -53,15 +45,6 @@ int main(int argc, char** argv) {
     queue_builtin_action(console_init_action, "console_init");
     action_for_each_trigger("init", action_add_queue_tail);
     queue_builtin_action(mix_hwrng_into_linux_rng_action, "mix_hwrng_into_linux_rng");
-
-    char bootmode[PROP_VALUE_MAX];
-    if (property_get("ro.bootmode", bootmode) > 0 && strcmp(bootmode, "charger") == 0) {
-        action_for_each_trigger("charger", action_add_queue_tail);
-    } else {
-        action_for_each_trigger("late-init", action_add_queue_tail);
-    }
-
-    // Run all property triggers based on current state of the properties.
     queue_builtin_action(queue_property_triggers_action, "queue_property_triggers");
 
     while (true) {
@@ -106,16 +89,15 @@ void property_init() {
     if (property_area_initialized) {
         return;
     }
-
     property_area_initialized = true;
      
-     //2.1.1     
-     //通过mmap开启共享内存位置/dev/properties 大小(128 * 1024) 
+     //2.1.1   通过mmap开启共享内存位置/dev/properties 大小(128 * 1024) 
     if (__system_property_area_init()) {
         return;
     }
     //属性服务参数存储到静态workspace结构体重
     pa_workspace.size = 0;
+    //创建PROP_FILENAME句柄
     pa_workspace.fd = open(PROP_FILENAME, O_RDONLY | O_NOFOLLOW | O_CLOEXEC);
     if (pa_workspace.fd == -1) {
         ERROR("Failed to open %s: %s\n", PROP_FILENAME, strerror(errno));
@@ -139,7 +121,7 @@ static int map_prop_area_rw()
     pa_size = PA_SIZE;
     pa_data_size = pa_size - sizeof(prop_area);
     compat_mode = false;
-    
+    //mmap开启虚拟内存地址 
     void *const memory_area = mmap(NULL, pa_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     if (memory_area == MAP_FAILED) {
         close(fd);
@@ -318,9 +300,7 @@ static void SIGCHLD_handler(int) {
 }
 ```
 
-
-
-### 4.0start_property_service
+### 4.start_property_service
 
 ```
   start_property_service();
@@ -470,3 +450,16 @@ void handle_control_message(const char *msg, const char *arg)
 }
 ```
 
+init进程核心
+
+1. 创建目录,挂载分区
+
+2. 解析启动脚本，
+
+3. 启动解析的服务
+
+4.  守护解析的服务
+
+  
+
+  
