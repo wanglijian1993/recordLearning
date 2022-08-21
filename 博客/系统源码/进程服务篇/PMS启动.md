@@ -578,3 +578,5 @@
         }
         return true;
     }
+
+总结:PMS会解析系统app和app/data下安装的应用，解析全部应用的清单文件最后写到packages.xml文件中。
