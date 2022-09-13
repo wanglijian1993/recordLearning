@@ -555,8 +555,3 @@ void invokeCallback(LifecycleOwner source, Lifecycle.Event event, Object target)
 
 最终反射调用，`LifeCycle`源码分析结束。
 
-回答下LifecycleRegistry:LifeCycle注册表里面存储统一对添加
-
-LifeCycle总结：
-
-1.LifeCycleRe

@@ -1,0 +1,259 @@
+# 排序算法总结
+
+## 冒泡排序
+
+冒泡排序的复杂度
+
+平均时间复杂度:O(n2)
+
+最好时间复杂度O(N)
+
+空间负责度O(1)
+
+稳定排序
+
+
+
+冒泡排序的核心思路:找最大的值
+
+1.循环比较相邻的两个数的值，如果B>A进行转换(找最大的值)
+
+2.每次找到第n-i的最大的值所以第二个循环的长度是(len-i)
+
+优化方案
+
+1.已经有序的队列，可以添加标识符如果一次循环比较都是符合顺序的数据就确定当前数组是按顺序排列的
+
+
+
+代码
+
+```
+
+static int [] nums={2,3,9,12,3,2,5,8,3};
+
+/**
+  * 冒泡排序
+  */
+static void toBubleSort(){
+    //不具备排序的条件
+    if(nums.length<=1){
+        return;
+    }
+    //默认有序
+    boolean flag;
+     for(int i=1;i<nums.length;i++){
+          flag=true;
+         for(int j=0;j< nums.length-i;j++){
+            //进行转换
+           if(nums[j]>nums[j+1]){
+               int temp=nums[j];
+               nums[j]=nums[j+1];
+               nums[j+1]=temp;
+               //进行过排序
+               flag=false;
+           }
+           if(flag){
+            break;
+           }
+         }
+
+     }
+
+ }
+```
+
+
+
+## 选择排序
+
+复杂度
+
+平均时间复杂度O(n2)
+
+最好时间复杂度O(n)
+
+空间复杂度O(1)
+
+稳定排序
+
+
+
+选择排序核心:查询当前列表区间最小(最大)值进行交换
+
+进行第i次遍历找到最小的值进行最小值跟i交互操作
+
+
+
+代码示例
+
+```
+static int [] nums={2,3,9,12,3,2,5,8,3};
+
+static void selectSort(){
+
+    int index;
+    for(int i=0;i<nums.length;i++){
+          index=i;
+        for(int j=i;j<nums.length;j++){
+          if(nums[j]<nums[index]) {
+              index = j;
+          }
+        }
+        //找到最小值
+        if(index!=i){
+            int temp=nums[index];
+            nums[index]=nums[i];
+            nums[i]=temp;
+        }
+
+    }
+
+}
+```
+
+## 排入排序
+
+复杂度
+
+时间复杂度O(n2)
+
+空间复杂o(1)
+
+稳定排序
+
+
+
+插入排序的核心:对集合进行遍历对第i个位置首先记录当前的值然后拿记录的值一直向前比较如果小于的情况下就进行移动(0-i的值都是有序的)
+
+
+
+代码示例
+
+```
+ /**
+  * 插入排序
+  */
+static void insertSort(){
+     for(int i=1;i<nums.length;i++){
+        //记录要插入的值
+        int tempNum=nums[i];
+
+        //记录下要移动的位置
+        int j=i;
+        while (tempNum<nums[j-1]&&j>0){
+            nums[j]=nums[j-1];
+            j--;
+        }
+        if(j!=i){
+            nums[j]=tempNum;
+        }
+
+     }
+
+ }
+```
+
+
+
+## 希尔排序(插入排序的升级)
+
+复杂度分析
+
+平均时间复杂度O(nlogN)
+
+空间复杂的O(1)
+
+最好时间复杂度O(nlogN)
+
+非稳定排序
+
+希尔排序的核心思想，让集合变得更有序再进行排序提高排序速度
+
+排序步骤
+
+让集合变得更有序的方式
+
+1.最外层循环进行除2递减(最好步长=1)
+
+2.第二层循环开始的位置为外层step所移动的值，进行++操作，让后面的值与前面的值准备进行比较
+
+3.开始比较和插入排序
+
+代码示例
+
+```
+static void xirSort(){
+   static int [] nums={2,3,9,12,3,2,5,8,3};
+   int len=nums.length;
+   int temp;
+    for(int step=len/2;step>0;step/=2){
+
+        for(int i=step;i<len;i++){
+            temp=nums[i];
+           int j=i-step;
+            while (j>0&&nums[j]>temp){
+                nums[j+step]=nums[j];
+                j-=step;
+            }
+            nums[j+step]=temp;
+
+        }
+
+    }
+}
+```
+
+归并排序
+
+核心思想:通过分治思想对集合就行余2的递归拆分再吧拆分成小的组进行排序一直到整个集合排序好。
+
+复杂度
+
+时间复杂度O(nlogN)
+
+空间复杂的O(nlongN)
+
+稳定排序
+
+
+
+例子
+
+```
+static void sort(int begin,int end){
+    if(end-begin<2){
+        return;
+    }
+    int mid=end+begin>>1;
+    sort(begin,mid);
+    sort(mid,end);
+
+    merge(begin,mid,end);
+}
+
+
+static void merge(int begin ,int mid,int end){
+
+    int li=0,le=mid-begin;
+    leftArray=new int[le];
+    int ri=mid,re=end;
+    int ai=begin;
+    //备份左边数组
+    for(int i=li;i<le;i++){
+        leftArray[i]=nums[begin+i];
+    }
+
+    //如果左边还没有结束
+    while (li<le){
+        if(ri<re&&nums[ri]<leftArray[li]){
+          nums[ai++]=nums[ri++];
+        }else{
+          nums[ai++]=leftArray[li++];
+        }
+    }
+
+}
+```
+
+​	
