@@ -1,5 +1,5 @@
 # Linux基础
-111
+
 ## 基础知识
 
 linux常用的系统CentOs：1.centOS  2. ubuntu
