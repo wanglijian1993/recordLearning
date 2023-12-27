@@ -16,7 +16,7 @@
 - 因为Java具备跨平台的特点，所以Java与本地交互的能力非常弱
 - 采用JNI特性增强Java与本地代码的交互能力
 
-### 实现步骤 
+### 实现步骤
 
 1. 在Java中声明Native方法(即需要调用的本地方法)
 2. 编译上述Java源文件javac(得到.class文件)
@@ -86,9 +86,17 @@ gcc main.o -o main.exe
 ### 动态库(dynamic link library .so)
 
 - 把一些函数库的链接载入推迟到程序员运行的时期(runtime)
-- 可是实现进程间的资源共享
+- 可实现进程间的资源共享
 - 将一些程序变的简单
 - 甚至可以真正坐到链接载入完全由程序员在程序代码中控制
+
+####动态库生成
+将c生成.o</br>
+gcc -c main.c main.o -fPIC</br>
+使用gcc -shared生成动态库</br>
+gcc -shared -o main.so main.o</br>
+编译动态库到可执行文件</br>
+gcc main.c -o a -l名称 -L./ -l动态库名称 -L制定库路径 </br>
 
 ### 交叉编译
 

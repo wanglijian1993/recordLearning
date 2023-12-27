@@ -69,3 +69,11 @@ export JAVA_HOME=/root/jdk-XXX_linux-x64 export PATH=$JAVA_HOME/bin:$PATH
 “2” 表示文件描述符2，意思是标准错误输出，“2>&1”表示标准输出和错误输出合并了，合并到out.file里
 
 **进程关闭：** ps -ef |grep 关键字  |awk '{print $2}'|xargs kill -9
+
+### linux权限
+rwx-rwx-rwx权限分类对应用户-组-其他</br>
+rwx对应数字4-2-1</br>
+给文件添加权限
+添加权限chmod u+(r/w/x) 文件名
+删除权限chmod u-(r/wx) 文件名
+添加整体权限chmod 777 文件名  7=(4(读)+2(写)+1(执行))
