@@ -1,5 +1,5 @@
 # Linux基础
-
+111
 ## 基础知识
 
 linux常用的系统CentOs：1.centOS  2. ubuntu
@@ -16,7 +16,7 @@ ubuntu下面使用dpkg -i jdk-XXX_linux-x64_bin.deb
 
 **卸载包**
 
-CentOS: yum -e 
+CentOS: yum -e
 
 Ubuntu: dpkg -r
 
@@ -69,4 +69,3 @@ export JAVA_HOME=/root/jdk-XXX_linux-x64 export PATH=$JAVA_HOME/bin:$PATH
 “2” 表示文件描述符2，意思是标准错误输出，“2>&1”表示标准输出和错误输出合并了，合并到out.file里
 
 **进程关闭：** ps -ef |grep 关键字  |awk '{print $2}'|xargs kill -9
-
