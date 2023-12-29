@@ -77,3 +77,14 @@ rwx对应数字4-2-1</br>
 添加权限chmod u+(r/w/x) 文件名
 删除权限chmod u-(r/wx) 文件名
 添加整体权限chmod 777 文件名  7=(4(读)+2(写)+1(执行))
+
+### man章节说明
+man 1 用户命令</br>
+man 2 系统调用</br>
+man 3 C库调用</br>
+man 4 设备文件及特殊文件</br>
+man 5 配置文件格式</br>
+man 6 游戏</br>
+man 7 杂项</br>
+man 8 管理类的命令</br>
+man 9 linux 内核API</br>
