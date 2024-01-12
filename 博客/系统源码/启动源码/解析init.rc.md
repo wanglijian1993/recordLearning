@@ -46,12 +46,12 @@ static void parse_config(const char *fn, const std::string& data)
     state.ptr = strdup(data.c_str());  // TODO: fix this code!
     state.nexttoken = 0;
     state.parse_line = parse_line_no_op;
-     //1.3初始化链表 头和尾都指向自己 
+     //1.3初始化链表 头和尾都指向自己
     list_init(&import_list);
     state.priv = &import_list;
-   
+
     for (;;) {
-        //遍历data数据i++的方式 一个字节一个字节编译
+        //遍历data数据i++的方式 一个字节一个字节解析
         switch (next_token(&state)) {
         case T_EOF:
             state.parse_line(&state, 0, 0);
@@ -136,7 +136,7 @@ int next_token(struct parse_state *state)
     //文本的开始的头指针
     char *x = state->ptr;
     char *s;
-      
+
     if (state->nexttoken) {
         int t = state->nexttoken;
         state->nexttoken = 0;
