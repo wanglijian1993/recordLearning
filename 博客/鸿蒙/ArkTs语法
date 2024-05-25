@@ -1,0 +1,365 @@
+# 初始ArkTs预言
+HarmonyOS使用的开发预言是ArkTS，ArkTS是TypeScript(简称TS)生态基础上做了进一步的扩展，保持了TS的基本风格，开发期间保持静态检查，提升程序执行稳定性和性能。
+
+ArkTS能力:
+基本语法:ArkTS定义了声明式UI描述，自定义组建和动态扩展UI元素的能力，再配合ArkUI开发框架中的系统组件及其相关的事件方法，属性方法等共同构成了UI开发的主体。
+声明式UI:声明式ui用户只需要定义界面结构和样式，然后将数据绑定到用户界面上。界面就会根据数据的变化自动更新。
+命令式UI:命令式UI是一种通过便携具体的操作指令来建构用户界面的方法，开发者需要编写大量的代码来操作界面的创建，更新和销毁过程，开发者需要注意界面每一个细节。
+
+状态管理:ArkTS提供了多维度的状态管理机制。在UI开发框架中，与UI相关联的数据可以在组件内使用，也可以在不同组件层级间传递，
+，比如父子组件之间，爷孙组件之间，还可以在应用全局范围内传递或跨设备传递。另外从数据的传递形势来看，可分为只读的单向传递和可变更的双向传递。
+
+渲染控制: ArkTS提供了渲染控制的能力。条件渲染可根据应用的不同状态，渲染对应状态下的UI内容。
+循环渲染可从数据源中迭代获取数据，并在每次迭代过程中创建相应的组件。数据懒加载从数据源中按需迭代数据，并为每次迭代过程中创建相应的组件。
+
+
+## ArkTs预言介绍
+声明变量</br>
+<code>let hi:string='hello'</code>
+
+常量声明 </br>
+以关键字const开头的声明引入只读常量，该常量只被赋值一次
+`const hello: string = 'hello';`
+
+
+自动类型推断
+ArkTS是一个静态预言，所有数据的类型必须在编译时确定。
+一个变量或常量声明了包含初始值，那么开发者就不需要显示的制定类型，ArkTS会自动推断类型的场景。<br>
+`let hi2 = 'hello, world';`
+
+## 类型
+### Number类型
+ArkTS提供number和Number类型，任何整数和浮点数都可以被赋给此类型的变量。
+数字字面量包括整数字面量和十进制浮点数字面量。
+
+整数字面量包括以下类别：
+由数字序列组成的十进制整数。例如:0,117,-345<br>
+以0x（或0X）开头的十六进制整数，可以包含数字（0-9）和字母a-f或A-F。例如：0x1123、0x00111、-0xF1A7<br>
+以0o（或0O）开头的八进制整数，只能包含数字（0-7）。例如：0o777<br>
+以0b（或0B）开头的二进制整数，只能包含数字0和1。例如：0b11、0b0011、-0b11<br>
+
+### Boolean类型
+boolean类型由true和false两个逻辑值组成
+
+### String类型
+string代表字符序列；可以使用转义字符来表示字符
+
+### Void类型
+void类型用于指定函数没有返回值
+
+### Object类型
+Object类型是所有引用类型的基类型。任何值，包括基本类型的值（它们会被自动装箱），都可以直接被赋给Object类型的变量。
+
+### Array类型
+
+array是数组，是由可赋值给数组生命中指定的元素类型的数据组成的对象。<br>
+`let names: string[] = ['Alice', 'Bob', 'Carol'];`
+
+### Enum类型
+Enum枚举类型，是预先定义的一组命名值类型，其中命名值又称为枚举常量。<br>
+使用枚举常量时必须以枚举类型名称为前缀。<br>
+`enum ColorSet { Red, Green, Blue }
+let c: ColorSet = ColorSet.Red;`
+常量表达式可以用于显示设置枚举常量的值。<br>
+`enum ColorSet { White = 0xFF, Grey = 0x7F, Black = 0x00 }
+let c: ColorSet = ColorSet.Black;`
+
+### Union类型
+union类型，即联合类型，是由多个类型组合成的引用类型。联合类型包含了变量可能的所有类型。<br>
+
+`class Cat {
+  // ...
+}
+class Dog {
+  // ...
+}
+class Frog {
+  // ...
+}
+type Animal = Cat | Dog | Frog | number
+// Cat、Dog、Frog是一些类型（类或接口）
+
+let animal: Animal = new Cat();
+animal = new Frog();
+animal = 42;
+// 可以将类型为联合类型的变量赋值为任何组成类型的有效值`
+
+### Aliases类型
+Aliases类型为匿名类型（数组、函数、对象字面量或联合类型）提供名称，或为已有类型提供替代名称。
+`type Matrix = number[][];
+type Handler = (s: string, no: number) => string;
+type Predicate <T> = (x: T) => Boolean;
+type NullableObject = Object | null;`
+
+## 函数
+函数声明引入一个函数，包含其名称，参数列表，返回类型和函数体。
+`function add(x: string, y: string): string {
+  let z: string = `${x} ${y}`;
+  return z;
+}`
+
+### 可选参数
+格式 ：name?:Type
+`function add(x: string, y: string): string {
+  let z: string = `${x} ${y}`;
+  return z;
+}`
+
+### 默认参数
+`function multiply(n: number, coeff: number = 2): number {
+  return n * coeff;
+}
+multiply(2);  // 返回2*2
+multiply(2, 3); // 返回2*3`
+
+### Rest参数
+函数的最后一个参数可以是rest参数。使用rest参数时，允许函数或方法接受任意数量的实参。
+`function sum(...numbers: number[]): number {
+  let res = 0;
+  for (let n of numbers)
+    res += n;
+  return res;
+}
+sum() // 返回0
+sum(1, 2, 3) // 返回6`
+
+### 返回类型
+
+如果可以从函数体内推断出函数返回类型，则可在函数声明中省略标注返回类型。
+`// 显式指定返回类型
+function foo(): string { return 'foo'; }
+// 推断返回类型为string
+function goo() { return 'goo'; }`
+
+不需要返回值的函数的返回类型可以显式指定为void或省略标注。这类函数不需要返回语句<br>
+
+`function hi1() { console.log('hi'); }
+function hi2(): void { console.log('hi'); }`
+
+### 函数调用
+
+调用函数以执行其函数体，实参值会赋值给函数的形参。
+`function join(x: string, y: string): string {
+  let z: string = `${x} ${y}`;
+  return z;
+}`
+则此函数的调用需要包含两个string类型的参数：<br>
+`function join(x: string, y: string): string {
+  let z: string = `${x} ${y}`;
+  return z;
+}`
+
+### 函数类型
+函数类型通常于定义回调:
+`
+type trigFunc=(x:number)=>number //这是一个函数类型
+function do_action(f: trigFunc){
+   f(3.14); //调用函数
+}
+do_action(Math.sin); //将函数作为参数传入
+`
+### 箭头函数或Lambda函数
+函数可以定义为箭头函数
+`let sum = (x: number, y: number): number => {
+  return x + y;
+}`
+箭头函数的返回类型可以省略；省略时，返回类型通过函数体推断。<br>
+表达式可以指定为箭头函数，使表达更简短，因此一下两种表达方式是等价的
+`let sum1 = (x: number, y: number) => { return x + y; }
+let sum2 = (x: number, y: number) => x + y`
+### 闭包
+闭包是由函数及声明该函数的环境组合而成的。该环境包含了这个闭包创建时作用域内的任何局部变量。
+在下例中，z是执行f时创建的g箭头函数实例的引用。g的实例维持了对它环境的引用(变量count存在其中)。因此，当z被调用时，变量count仍可用。
+`
+function f(): () => number {
+  let count = 0;
+  let g = (): number => { count++; return count; };
+  return g;
+}
+
+let z = f();
+z(); // 返回：1
+z(); // 返回：2
+`
+
+### 函数重载
+我们可以通过编写重载，指定函数的不同调用方式。具体方法为，为同一个函数写入多个同名但签名不同的函数头，函数实现紧随其后。
+`
+function foo(x: number): void;            /* 第一个函数定义 */
+function foo(x: string): void;            /* 第二个函数定义 */
+function foo(x: number | string): void {  /* 函数实现 */
+}
+
+foo(123);     //  OK，使用第一个定义
+foo('aa'); // OK，使用第二个定义
+`
+
+## Record类型的对象字面量
+泛型Record<K, V>用于将类型（键类型）的属性映射到另一个类型（值类型）。常用对象字面量来初始化该类型的值 <br>
+`let map: Record<string, number> = {
+  'John': 25,
+  'Mary': 21,
+}
+
+map['John']; // 25`
+
+类型K可以是字符串类型或数值类型，而V可以是任何类型。
+`interface PersonInfo {
+  age: number
+  salary: number
+}
+let map: Record<string, PersonInfo> = {
+  'John': { age: 25, salary: 10},
+  'Mary': { age: 21, salary: 20}
+}`
+
+## 接口属性
+接口属性可以是字段、getter、setter或getter和setter组合的形式。
+
+属性字段只是getter/setter对的便捷写法。以下表达方式是等价的：
+`interface Style {
+  color: string
+}`
+
+`interface Style {
+  get color(): string
+  set color(x: string)
+}`
+
+
+## 泛型
+泛型类型和函数允许创建的代码在各种类型上运行，而不仅支持单一类型。
+### 泛型类和接口
+类和接口可以定义为泛型，将参数添加到类型定义中，如以下示例中的类型参数Element：
+`class CustomStack<Element> {
+  public push(e: Element):void {
+    // ...
+  }
+}`
+要使用类型CustomStack，必须为每个类型参数指定类型实参：
+`let s = new CustomStack<string>();
+s.push('hello');`
+编译器在使用泛型类型和函数时会确保类型安全。参见以下示例：
+`let s = new CustomStack<string>();
+s.push(55); // 将会产生编译时错误`
+
+### 泛型约束
+泛型类型的类型参数可以绑定。例如，HashMap<Key,Value>容器中的Key类型参数必须具有哈希方法，即它应该是可哈希的。
+`interface Hashable {
+  hash(): number
+}
+class HasMap<Key extends Hashable, Value> {
+  public set(k: Key, v: Value) {
+    let h = k.hash();
+    // ...其他代码...
+  }
+}`
+
+在上面的例子中，Key类型扩展了Hashable，Hashable接口的所有方法都可以为key调用。
+
+## 模块
+程序可划分为多组便一单元或模块。
+每个模块都有其自己的作用域，即，在模块中创建的任何声明(变量，函数，类等)在该模块之外都不可见，除非它们被显示导出。
+
+### 导出
+可以使用关键字export导出顶层的声明。
+
+未导出的声明名称被视为私有名称，只能在声明该名称的模块中使用。
+
+`export class Point {
+  x: number = 0
+  y: number = 0
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+}
+export let Origin = new Point(0, 0);
+export function Distance(p1: Point, p2: Point): number {
+  return Math.sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+}`
+
+### 导入
+
+导入声明用于导入从其他模块导出的实体，并在当前模块中提供其绑定。导入声明由两部分组成：
+
+导入路径，用于指定导入的模块；
+导入绑定，用于定义导入的模块中的可用实体集和使用形式（限定或不限定使用）
+
+导入绑定可以有几种形式。
+假设模块具有路径"./utils"和导出实体"X"和“Y”。
+导入绑定* as A表示绑定名称"A",通过A.name可访问从导入路径指定的模块导出的所有实体:
+`import * as Utils from './utils'
+Utils.X // 表示来自Utils的X
+Utils.Y // 表示来自Utils的Y`
+导入绑定{ ident1, ..., identN }表示将导出的实体与指定名称绑定，该名称可以用作简单名称：
+`import { X, Y } from './utils'
+X // 表示来自utils的X
+Y // 表示来自utils的Y`
+如果标识符列表定义了ident as alias，则实体ident将绑定在名称alias下：
+`import { X as Z, Y } from './utils'
+Z // 表示来自Utils的X
+Y // 表示来自Utils的Y
+X // 编译时错误：'X'不可见`
+
+### 动态导入
+应用开发的有些场景中，如果希望根据条件导入模块或者按需导入模块，可以使用动态导入代替静态导入。
+import()语法通常称为动态导入dynamic import,是一种类似函数的表达式，用来动态导入模块。以这种方式调用，将返回一个promise。
+如下例所示，import(modulePath)可以加载模块并返回一个promise，该promise resolve为一个包含其所有导出的模块对象。该表达式可以在代码中的任意位置调用。
+`let modulePath = prompt("Which module to load?");
+import(modulePath)
+.then(obj => <module object>)
+.catch(err => <loading error, e.g. if no such module>)`
+如果在异步函数中，可以使用let module = await import(modulePath)。
+`// say.ts
+export function hi() {
+  console.log('Hello');
+}
+export function bye() {
+  console.log('Bye');
+}`
+
+那么，可以像下面这样进行动态导入：
+`async function test() {
+  let ns = await import('./say');
+  let hi = ns.hi;
+  let bye = ns.bye;
+  hi();
+  bye();
+}`
+
+## 导入HarmonyOS SDK的开放能力
+HarmonyOS SDK提供的开放能力（接口）也需要在导入声明后使用。可直接导入接口模块来使用该模块内的所有接口能力，例如：
+`import UIAbility from '@ohos.app.ability.UIAbility';`
+
+从HarmonyOS NEXT Developer Preview 1版本开始引入Kit概念。SDK对同一个Kit下的接口模块进行了封装，开发者在示例代码中可通过导入Kit的方式来使用Kit所包含的接口能力。其中，Kit封装的接口模块可查看SDK目录下Kit子目录中各Kit的定义。
+
+
+通过导入Kit方式使用开放能力有三种方式：
+方式一：导入Kit下单个模块的接口能力
+`import { UIAbility } from '@kit.AbilityKit';`
+方式二：导入Kit下多个模块的接口能力。
+`import { UIAbility, Ability, Context } from '@kit.AbilityKit';`
+方式三：导入Kit包含的所有模块的接口能力.
+`import * as module from '@kit.AbilityKit';`
+
+*方式三可能会导入过多无需使用的模块，导致编译后的HAP包太大，占用过多资源，请谨慎使用。
+
+## 顶层语句
+模块可以包含除return语句外的任何模块级语句。
+如果模块包含主函数(程序入口)，则模块的顶层语句将在此函数函数体之前执行。否则，这些语句将在执行模块的其他功能之前执行。
+
+## 程序入口
+程序（应用）的入口是顶层主函数。主函数应具有空参数列表或只有string[]类型的参数。
+`function main() {
+  console.log('this is the program entry');
+}`
+
+## this
+关键字this只能在类的实例方法中使用。
+`class A {
+  count: string = 'a'
+  m(i: string): void {
+    this.count = i;
+  }
+}`
