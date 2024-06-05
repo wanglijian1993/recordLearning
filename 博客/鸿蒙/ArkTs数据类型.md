@@ -57,3 +57,7 @@ let c: ColorSet = ColorSet.Red;`
 常量表达式可以用于显式设置枚举常量的值
 `enum ColorSet { White = 0xFF, Grey = 0x7F, Black = 0x00 }
 let c: ColorSet = ColorSet.Black;`
+
+## Union类型
+union类型，即联合类型，是由多个类型组合成的引用类型。
+`let union:number|string; `
