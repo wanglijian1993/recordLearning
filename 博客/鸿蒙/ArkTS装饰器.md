@@ -2,7 +2,6 @@
 
 ## Builder装饰器
 Builder装饰的函数也叫"自定义构造函数",是一个轻量级ui复用机制。
-语法
 
 ### 组件内自定义构造函数
 `@Builder MyBuilderFunction() { ... }`
